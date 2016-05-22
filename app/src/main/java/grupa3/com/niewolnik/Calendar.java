@@ -1,7 +1,13 @@
 package grupa3.com.niewolnik;
 
-/**
- * Created by student on 5/22/16.
- */
-public class Calendar {
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class Calendar extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calendar);
+    }
 }
