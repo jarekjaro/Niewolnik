@@ -8,5 +8,5 @@
     <string name="stop_button">Stop</string>
     <string name="calendar_button">Kalendarz</string>
     <string name="settings_button">Ustawienia</string>
-    <string name="delegation_button">Del</string>
+    <string name="delegation_button">Delegacja</string>
 </resources>
