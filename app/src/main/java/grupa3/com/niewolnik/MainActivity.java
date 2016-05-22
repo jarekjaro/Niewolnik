@@ -6,12 +6,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private Date startTime = new Date();
     private Date endTime = new Date();
+
     //private DB db;
+
+    private int currentProgress =0;
+    private int dailyWorkedTime =0;
+    private int currentDayWorkingHours = 8;
+
+    private int calculateMinutesDifference(Date startTime, Date endTime) {
+        return (int) ((endTime.getTime() - startTime.getTime())/1000/60);
+    }
+
+    private String differenceInString(int differenceInMinutes) {
+        int min = differenceInMinutes % 60;
+        int hours = (differenceInMinutes -min)/60;
+        return hours + "h " + min + "m";
+    }
+
+
 
 
     @Override
