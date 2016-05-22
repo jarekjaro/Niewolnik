@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/date_field"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
@@ -22,33 +22,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView2"
+        android:text="@string/monthly_status"
+        android:id="@+id/monthly_status"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView2"
+        android:text="@string/start_button"
+        android:id="@+id/start_button"
+        android:layout_below="@+id/monthly_status"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="60dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
+        android:text="@string/stop_button"
+        android:id="@+id/stop_button"
+        android:layout_alignTop="@+id/start_button"
         android:layout_alignParentEnd="true" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:minWidth="100px"
@@ -58,41 +58,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView3"
-        android:layout_above="@+id/progressBar"
+        android:text="@string/start_time"
+        android:id="@+id/start_time"
+        android:layout_above="@+id/progress_bar"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/progressBar"
-        android:layout_alignEnd="@+id/button2" />
+        android:text="@string/end_time"
+        android:id="@+id/end_time"
+        android:layout_above="@+id/progress_bar"
+        android:layout_alignEnd="@+id/stop_button" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
+        android:text="@string/calendar_button"
+        android:id="@+id/calendar_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button4"
+        android:text="@string/settings_button"
+        android:id="@+id/settings_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button5"
+        android:text="@string/delegation_button"
+        android:id="@+id/delegation_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>
