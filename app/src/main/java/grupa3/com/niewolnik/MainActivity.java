@@ -1,18 +1,17 @@
 package grupa3.com.niewolnik;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private Date startTime = new Date();
     private Date endTime = new Date();
-
+    private BluetoothAdapter bluetoothAdapter;
     //private DB db;
 
     private int currentProgress =0;
@@ -82,5 +81,13 @@ public class MainActivity extends AppCompatActivity {
         //    Log.d("DB", w.getLP() + " " + w.getDate()+ " " + w.getArriveTime() +
         //            " " + w.getLeavingTime());
         //}
+    }
+
+    public void pairBluetoothTriggeringDevice(View view) {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(!bluetoothAdapter.isEnabled()){
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBtIntent);
+        }
     }
 }
