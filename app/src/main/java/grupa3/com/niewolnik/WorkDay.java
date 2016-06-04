@@ -13,7 +13,7 @@ class WorkDay {
     private String date;
     private int freeDay;
 
-    public WorkDay(String arriveTime, String leavingTime, String date,int freeDay) {
+    public WorkDay(String date,String arriveTime, String leavingTime, int freeDay) {
         this.arriveTime = arriveTime;
         this.leavingTime = leavingTime;
         this.date = date;
@@ -67,7 +67,7 @@ class WorkDay {
     }
 
     public String toString() {
-        return arriveTime + " " + leavingTime + " " + date;
+        return lp +" \""+ date+"\" "+ arriveTime + " " + leavingTime + " " + freeDay;
     }
 
 }
