@@ -9,8 +9,12 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by student on 22/05/16.
@@ -52,7 +56,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public List<WorkDay> getWorkDay(String date) {
-        List<WorkDay> workDays = new LinkedList<WorkDay>();
+        List<WorkDay> workDays = new LinkedList<>();
         String[] kolumny={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
         String args[]={date};
@@ -72,7 +76,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public List<WorkDay> getAll() {
-        List<WorkDay> workDays = new LinkedList<WorkDay>();
+        List<WorkDay> workDays = new LinkedList<>();
         String[] cols={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
         Cursor kursor = db.query("REGISTER",cols,null,null,null,null,null);
