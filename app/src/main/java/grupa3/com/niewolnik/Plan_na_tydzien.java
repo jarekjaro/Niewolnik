@@ -16,9 +16,10 @@ public class Plan_na_tydzien extends AppCompatActivity {
     // Plan na miesiąc to plan nr 2
     private EditText pon, wto, sro, czw, pio;
     private TextView tytul;
-    private byte zmByte;
+    private String zmByte;
     private String rGodz = "";
-    private int r_plan;
+    private int r_plan, godz = 0;
+    private DB db_manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +35,42 @@ public class Plan_na_tydzien extends AppCompatActivity {
         pio = (EditText) findViewById(R.id.tydz_pio);
 
         if (r_plan == 1) {
-
             try {
-                rGodz = new String(Plan_obszar_wspolny.godzPlanu, "UTF-8");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                zmByte = "";
 
-            if (rGodz.length() > 0) {
-                pon.setText(rGodz.substring(0, 1));
-                wto.setText(rGodz.substring(1, 2));
-                sro.setText(rGodz.substring(2, 3));
-                czw.setText(rGodz.substring(3, 4));
-                pio.setText(rGodz.substring(4, 5));
+                godz = db_manager.getDaySetting("mon");
+                rGodz = String.valueOf(godz / 60);
+                zmByte += rGodz;
+                pon.setText(rGodz);
+
+                godz = db_manager.getDaySetting("tue");
+                rGodz = String.valueOf(godz / 60);
+                zmByte += rGodz;
+                wto.setText(rGodz);
+
+                godz = db_manager.getDaySetting("wed");
+                rGodz = String.valueOf(godz / 60);
+                zmByte += rGodz;
+                sro.setText(rGodz);
+
+                godz = db_manager.getDaySetting("thu");
+                rGodz = String.valueOf(godz / 60);
+                zmByte += rGodz;
+                czw.setText(rGodz);
+
+                godz = db_manager.getDaySetting("fri");
+                rGodz = String.valueOf(godz / 60);
+                zmByte += rGodz;
+                pio.setText(rGodz);
+
+                Plan_obszar_wspolny.godzPlanu = rGodz.getBytes();
+
+            } catch(NumberFormatException nfe) {
+                System.out.println("Blad odczytu planu tygodniowego " + nfe);
             }
         }
     }
+
 
     public void gotoPlanNaMiesiac (View view) {
         zapPlanTyg();
@@ -85,14 +106,47 @@ public class Plan_na_tydzien extends AppCompatActivity {
         String s;
 
         try {
-             s = pon.getText().toString().trim();
-             s += wto.getText().toString().trim();
-             s += sro.getText().toString().trim();
-             s += czw.getText().toString().trim();
-             s += pio.getText().toString().trim();
-             Plan_obszar_wspolny.godzPlanu = s.getBytes("UTF-8");
+            godz = Integer.parseInt(pon.getText().toString().trim()) / 60;
+            db_manager.updateSetting("mon", godz);
+
+            godz = Integer.parseInt(pon.getText().toString().trim()) / 60;
+            db_manager.updateSetting("tue", godz);
+            godz = Integer.parseInt(pon.getText().toString().trim()) / 60;
+            db_manager.updateSetting("wed", godz);
+            godz = Integer.parseInt(pon.getText().toString().trim()) / 60;
+            db_manager.updateSetting("thu", godz);
+            godz = Integer.parseInt(pon.getText().toString().trim()) / 60;
+            db_manager.updateSetting("fri", godz);
+
+            Plan_obszar_wspolny.godzPlanu = rGodz.getBytes();
+
+        } catch(NumberFormatException nfe) {
+            System.out.println("Blad zapisu planu tygodniowego " + nfe);
+        }
+    }
+
+    public void zapPlanTyg_pop () {
+        String s;
+
+        try {
+            s = pon.getText().toString().trim();
+            s += wto.getText().toString().trim();
+            s += sro.getText().toString().trim();
+            s += czw.getText().toString().trim();
+            s += pio.getText().toString().trim();
+            Plan_obszar_wspolny.godzPlanu = s.getBytes("UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+
+/*
+
+Log.d("DB", " --------day setting----------");
+Log.d("DB", Integer.toString(db_manager.getDaySetting("mon")));
+
+db_manager.updateSetting("mon", 480);
+db_manager.getDaySetting("mon")
+
+ */

@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("DB", " --------wyswietlanie----------");
-        for (WorkDay wd : db_manager.getAll()) {
-            Log.d("DB ", wd.toString());
-        }
+//        for (WorkDay wd : db_manager.getAll()) {
+//            Log.d("DB ", wd.toString());
+//        }
         Log.d("DB", " --------settings----------");
 
         db_manager.updateSetting("mon", 380);
@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startWorkingTime(View view) {
-<<<<<<< HEAD
         StringBuffer dataWStringu = new StringBuffer();
         Date todayDate = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -150,10 +149,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB", " --------day added ----------");
             Log.d("DB", db_manager.getWorkDay(sdf.format(todayDate).toString()).toString());
         }
-=======
         //if(db_manager.getWorkDay())
         //db_manager.addWorkday(new WorkDay());
->>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
     }
 
     public void stopWorkingTime(View view) {
