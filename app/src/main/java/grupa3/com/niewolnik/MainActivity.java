@@ -56,9 +56,15 @@ public class MainActivity extends AppCompatActivity {
         //---------db tests------------------------------------------------------------
         db_manager = new DB(this);
 
+
+        //db_manager.addWorkday(new WorkDay("2016-05-16", "09:30", "15:10", 0));
+        //db_manager.addWorkday(new WorkDay("2016-05-30", "08:30", "12:00", 0));
+        //db_manager.addWorkday(new WorkDay("2016-05-30", "14:30", "17:30", 0));
+
 //        db_manager.addWorkday(new WorkDay("2016-05-26", "07:30", "17:20", 0));
 //        db_manager.addWorkday(new WorkDay("2016-05-30", "08:30", "12:00", 0));
 //        db_manager.addWorkday(new WorkDay("2016-05-30", "14:30", "17:30", 0));
+
 
         //db_manager.delWorkday("2016-05-26");
 
@@ -72,6 +78,21 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB ", wd.toString());
         }
         Log.d("DB", " --------settings----------");
+
+        db_manager.updateSetting("mon", 380);
+        //db_manager.addSetting("mon", 480);
+        //db_manager.addSetting("tue", 480);
+        //db_manager.addSetting("wed", 480);
+        //db_manager.addSetting("thu", 480);
+        //db_manager.addSetting("fri", 480);
+        //db_manager.addSetting("sat", 480);
+        //db_manager.addSetting("sun", 480);
+
+        //db_manager.delSetting("fri", 480);
+        //db_manager.delSetting("sat", 480);
+        //db_manager.delSetting("sun",480);
+
+
 //        db_manager.updateSetting("mon", 480);
 //        db_manager.addSetting("mon", 480);
 //        db_manager.addSetting("tue", 480);
@@ -88,7 +109,18 @@ public class MainActivity extends AppCompatActivity {
 
         for (String s : new ArrayList<String>(allSettings.keySet())) {
             Log.d("DB", s + " " + Integer.toString(allSettings.get(s)));
+
         }
+        Log.d("DB", " --------day setting----------");
+        Log.d("DB", Integer.toString(db_manager.getDaySetting("mon")));
+
+
+        Log.d("DB", " --------day status----------");
+        db_manager.getDayStatus("2016-05-26");
+        Log.d("DB", " --------day status----------");
+        db_manager.getDayStatus("2016-05-30");
+        Log.d("DB", " --------month status----------");
+        Log.d("DB", "month:"+Integer.toString(db_manager.getMonthStatus("2016-05")));
 
 //        Log.d("DB", " --------day status----------");
 //        db_manager.getDayStatus("2016-05-26");
@@ -96,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
 //        db_manager.getDayStatus("2016-05-30");
 
 
+
         //--------------------------------------------------------------------
     }
 
 
     public void startWorkingTime(View view) {
+<<<<<<< HEAD
         StringBuffer dataWStringu = new StringBuffer();
         Date todayDate = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -116,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB", " --------day added ----------");
             Log.d("DB", db_manager.getWorkDay(sdf.format(todayDate).toString()).toString());
         }
+=======
+        //if(db_manager.getWorkDay())
+        //db_manager.addWorkday(new WorkDay());
+>>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
     }
 
     public void stopWorkingTime(View view) {
@@ -153,4 +191,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }

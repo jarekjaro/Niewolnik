@@ -35,7 +35,13 @@ public class DB extends SQLiteOpenHelper {
                         "A_TIME CHAR(5)," +
                         "L_TIME CHAR(5)," +
                         "FREE_DAY INT(1));"));
-
+        addSetting("mon", 480);
+        addSetting("tue", 480);
+        addSetting("wed", 480);
+        addSetting("thu", 480);
+        addSetting("fri", 480);
+        addSetting("sat", 480);
+        addSetting("sun", 480);
 
     }
 
@@ -64,8 +70,12 @@ public class DB extends SQLiteOpenHelper {
         Cursor cursor = db.query("REGISTER", kolumny, "date=?", args, null, null, null, null);
         //Cursor kursor=db.query("telefony",kolumny,"nr=?",args,null,null,null,null);
 
+<<<<<<< HEAD
         while (cursor.moveToNext()) {
             Log.d("DB ", "moveToNext0:" + cursor.getInt(0));
+=======
+        while(cursor.moveToNext()){
+>>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
             WorkDay workDay = new WorkDay();
             workDay.setLP(cursor.getInt(0));
             workDay.setDate(cursor.getString(1));
@@ -125,21 +135,44 @@ public class DB extends SQLiteOpenHelper {
         return settings;
     }
 
+    public int getDaySetting(String day) {
+
+        HashMap<String,Integer> allSettings=getAllSettings();
+        return allSettings.get(day);
+    }
+
     public int getMonthStatus(String date) {
 
         String[] split_date = date.split("-");
         int iYear = Integer.parseInt(split_date[0]);
+<<<<<<< HEAD
         int iMonth = Integer.parseInt(split_date[1]);
         ; // 1 (months begin with 0)
+=======
+        int iMonth = Integer.parseInt(split_date[1])-1; //months begin with 0
+>>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
         int iDay = 1;
 
+        GregorianCalendar calendar = new GregorianCalendar(iYear,iMonth,iDay);
+        //Log.d("DB ", "day of month:" + calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        int daysOfMonth=calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int status=0;
+        for(int i=1;i<=daysOfMonth;i++) {
+            String day="";
+            if(i<10) {  day = "0"+Integer.toString(i); }
+            else { day=Integer.toString(i); }
 
+<<<<<<< HEAD
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
         GregorianCalendar calendar = new GregorianCalendar(2013, 01, 28, 13, 24, 56);
         calendar.get(Calendar.DAY_OF_MONTH);
         Log.d("DB ", "day of month:" + calendar.get(Calendar.DAY_OF_MONTH));
+=======
+            status+=getDayStatus(split_date[0]+"-"+split_date[1]+"-"+day);
+        }
+>>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
 
-        return 0;
+        return status;
     }
 
     public int getDayStatus(String date) {
@@ -177,6 +210,7 @@ public class DB extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
             //getting weekday from date
+<<<<<<< HEAD
             args[0] = (new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
             String[] col = {"WORK_MINUTES"};
             cursor = db.query("SETTINGS", col, "weekday=?", args, null, null, null, null);
@@ -194,6 +228,28 @@ public class DB extends SQLiteOpenHelper {
         }
         status = status - work_minutes;
         Log.d("DB ", "status:" + status);
+=======
+            //args[0]=(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
+            //String[] col={"WORK_MINUTES"};
+            //cursor = db.query("SETTINGS", col,"weekday=?", args,null,null,null,null);
+
+            //while(cursor.moveToNext()) {
+            //    work_minutes=(cursor.getInt(0));
+            //}
+            work_minutes = getDaySetting((new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
+
+
+            status+=getDateDiff(a_time, l_time);
+            Log.d("DB ","--------------------");
+            Log.d("DB ", "a_time:"+a_time);
+            Log.d("DB ", "l_time:" + l_time);
+            Log.d("DB ","work_minutes:"+work_minutes);
+            Log.d("DB ","weekday:"+(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
+            Log.d("DB ","--------------------");
+        }
+        status=status-work_minutes;
+        Log.d("DB ","status:"+date+":"+status);
+>>>>>>> dc8d2833ead014df26293870f8eaaad5addb119a
 
 
         return status;
