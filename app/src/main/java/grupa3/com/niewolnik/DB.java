@@ -35,6 +35,13 @@ public class DB extends SQLiteOpenHelper {
                         "A_TIME CHAR(5)," +
                         "L_TIME CHAR(5)," +
                         "FREE_DAY INT(1));"));
+        addSetting("mon", 480);
+        addSetting("tue", 480);
+        addSetting("wed", 480);
+        addSetting("thu", 480);
+        addSetting("fri", 480);
+        addSetting("sat", 480);
+        addSetting("sun", 480);
 
     }
 
