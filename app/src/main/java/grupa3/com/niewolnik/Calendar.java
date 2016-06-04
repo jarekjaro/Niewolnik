@@ -33,7 +33,7 @@ public class Calendar extends AppCompatActivity {
 //        db_manager.addWorkday(new WorkDay("2016-05-26", "07:30", "17:20", 0));
 //        db_manager.addWorkday(new WorkDay("2016-06-01", "08:02", "16:03", 0));
 //        db_manager.addWorkday(new WorkDay("2016-06-03", "09:22", "20:03", 0));
-        db_manager.addWorkday(new WorkDay("2016-06-02", "02:11", "20:03", 1));
+//        db_manager.addWorkday(new WorkDay("2016-06-02", "02:11", "20:03", 1));
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -92,8 +92,10 @@ public class Calendar extends AppCompatActivity {
 
                 statisticDisplay.setText("Praca od: " + currentArrivalTime + " do: " + currentLeaveTime);
 
-                //statisticDisplay.setText("Czas pracy: " + wd.toString());
+                getWorkDuration(currentLeaveTime, currentArrivalTime);
 
+
+                //statisticDisplay.setText("Czas pracy: " + wd.toString());
 
                 if (wd.getFreeDay() != 0){
                     statisticDisplay.append("\nPraca w dniu wolnym !");
@@ -116,11 +118,17 @@ public class Calendar extends AppCompatActivity {
         Integer arrivalTimeInMinutes;
         Integer workTimeMinutes;
 
-        leaveTimeInMinutes = 60 * Integer.parseInt(leaveTime.substring(0, 1)) + Integer.parseInt(leaveTime.substring(3, 4));
+        Log.d("DB", "Lt, At: " + leaveTime + "  " + arrivalTime);
+
+        leaveTimeInMinutes = 60 * Integer.parseInt(leaveTime.substring(0, 2)) + Integer.parseInt(leaveTime.substring(3, 5));
         arrivalTimeInMinutes = 60 * Integer.parseInt(arrivalTime.substring(0, 1)) + Integer.parseInt(arrivalTime.substring(3, 4));
         workTimeMinutes = leaveTimeInMinutes - arrivalTimeInMinutes;
 
-        Log.d("DB", "Work Time: " + outValue + workTimeMinutes);
+        Log.d("DB", "Int VAL: " + leaveTimeInMinutes);
+
+
+
+        //Log.d("DB", "Int VAL: " + leaveTimeInMinutes + " " + arrivalTimeInMinutes);
 
         return outValue;
     }
