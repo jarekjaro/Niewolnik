@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //   Plan_obszar_wspolny. zapiszPlanRob("NiewolnikPlan",getApplicationContext());
+        Plan_obszar_wspolny.dajPreferencje(getApplicationContext());
 
         //========testdb========
         addWorkDay();
@@ -43,7 +45,16 @@ public class MainActivity extends AppCompatActivity {
         //======================
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+        //Piotr
+        Plan_obszar_wspolny.piszPreferencje(getApplicationContext(),
+                Plan_obszar_wspolny.daj_nr_planu(),
+                Plan_obszar_wspolny.daj_nr_roku(),
+                Plan_obszar_wspolny.daj_nr_mies());
+    }
 
 
     public void startWorkingTime(View view) {
