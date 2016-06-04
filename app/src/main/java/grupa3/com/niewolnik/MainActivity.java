@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,20 +13,22 @@ import android.widget.ProgressBar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1;
-    private Date startTime = new Date();
-    private Date endTime = new Date();
     private BluetoothAdapter bluetoothAdapter;
     private ProgressBar mainProgressBar;
-    private DB db_manager;
+    protected DB db_manager;
     private int currentProgress = 0;
     private int dailyWorkedTime = 0;
     private int currentDayWorkingHours = 8;
+    private Handler mHandler = new Handler();
+    protected Date todayDate = new Date(System.currentTimeMillis());
+    protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     private int calculateMinutesDifference(Date startTime, Date endTime) {
         return (int) ((endTime.getTime() - startTime.getTime()) / 1000 / 60);
@@ -48,27 +51,54 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         db_manager = new DB(this);
+        // Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (currentProgress < 100) {
+                    currentProgress = updateProgress();
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            mainProgressBar.setProgress(currentProgress);
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 
+    private int updateProgress() {
+        int startTime;
+        int endTime;
+        List<WorkDay> workDayList = getTodayEntriesList();
+        for (Iterator iterator = workDayList.iterator(); iterator.hasNext(); ) {
+            WorkDay entry = (WorkDay) iterator.next();
+            entry.getDate();
+
+        }
+        return currentProgress;
+    }
+
+    private List<WorkDay> getTodayEntriesList() {
+        return db_manager.getWorkDay(sdf.format(todayDate));
     }
 
 
     public void startWorkingTime(View view) {
-        Date todayDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        List<WorkDay> workDayList = db_manager.getWorkDay(sdf.format(todayDate));
+        List<WorkDay> workDayList = getTodayEntriesList();
 
         if (workDayList.size() != 0) {
-            if ((db_manager.getWorkDay(sdf.format(todayDate))).size() != 0) {
+            if ((getTodayEntriesList()).size() != 0) {
 
                 Log.d("DB", " --------day status----------");
-                workDayList.addAll(db_manager.getWorkDay(sdf.format(todayDate)));
+                workDayList.addAll(getTodayEntriesList());
                 for (int i = 0; i < workDayList.size(); i++) {
                     Log.d("DB", workDayList.get(i).toString());
                 }
             } else {
                 db_manager.addWorkday(new WorkDay());
                 Log.d("DB", " --------day added ----------");
-                Log.d("DB", db_manager.getWorkDay(sdf.format(todayDate)).toString());
+                Log.d("DB", getTodayEntriesList().toString());
             }
         }
     }
