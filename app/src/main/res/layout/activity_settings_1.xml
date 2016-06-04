@@ -49,13 +49,13 @@
         android:layout_height="match_parent"
         android:layout_weight="7">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Powrót"
-            android:id="@+id/btnMainActivity"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="gotoMainActivity" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Powrót"-->
+            <!--android:id="@+id/btnMainActivity"-->
+            <!--android:layout_weight="1"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="gotoMainActivity" />-->
     </LinearLayout>
 </LinearLayout>

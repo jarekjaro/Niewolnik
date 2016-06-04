@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Settings"/>
+        <activity android:name=".Plan_na_tydzien"/>
+        <activity android:name=".Plan_na_miesiac"/>
+        <activity android:name=".Plan_urlopow"/>
+        <activity android:name=".Plan_urlop_poz"/>
         <activity android:name=".Calendar"></activity>
     </application>
 

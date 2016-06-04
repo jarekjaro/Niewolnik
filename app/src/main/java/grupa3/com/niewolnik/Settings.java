@@ -26,7 +26,7 @@ public class Settings extends AppCompatActivity {
     }
 
     public void gotoMainActivity (View view) {
-        Intent intent = new Intent(Settings.this, grupa3.com.niewolnik.MainActivity.class);
+        Intent intent = new Intent(this, grupa3.com.niewolnik.MainActivity.class);
         startActivity(intent);
     }
 

@@ -945,7 +945,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="8.2">
 
-        <Button
+        Button
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="Ustawienia"
@@ -960,7 +960,7 @@
             android:id="@+id/button_12"
             android:layout_weight="1"
             android:onClick="ustawAktywnyPlanMies" />
-
+<!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -969,7 +969,7 @@
             android:layout_weight="1"
             android:onClick="gotoPlanTygodniowy"
             android:nestedScrollingEnabled="false" />
-
+-->
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
