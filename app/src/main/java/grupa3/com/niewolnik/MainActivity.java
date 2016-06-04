@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Date todayDate = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+
         if (((LinkedList) db_manager.getWorkDay(sdf.format(todayDate))).size() != 0) {
 
             if (((LinkedList) db_manager.getWorkDay(sdf.format(todayDate))).size() != 0) {
@@ -155,6 +156,22 @@ public class MainActivity extends AppCompatActivity {
             //if(db_manager.getWorkDay())
             //db_manager.addWorkday(new WorkDay());
         }
+
+        if (((LinkedList) db_manager.getWorkDay(sdf.format(todayDate))).size() != 0) {
+            Log.d("DB", " --------day status----------");
+            List<WorkDay> workDayList = new ArrayList<>();
+            workDayList.addAll(db_manager.getWorkDay(sdf.format(todayDate).toString()));
+            for (int i = 0; i < workDayList.size(); i++) {
+                Log.d("DB", workDayList.get(i).toString());
+            }
+        } else {
+            db_manager.addWorkday(new WorkDay());
+            Log.d("DB", " --------day added ----------");
+            Log.d("DB", db_manager.getWorkDay(sdf.format(todayDate).toString()).toString());
+        }
+        //if(db_manager.getWorkDay())
+        //db_manager.addWorkday(new WorkDay());
+
     }
 
     public void stopWorkingTime(View view) {

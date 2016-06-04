@@ -276,16 +276,16 @@ public class DB extends SQLiteOpenHelper {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 
-        }
-        //status = status - work_minutes;
-        //Log.d("DB ", "status:" + status);
-        //args[0]=(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
-        //String[] col={"WORK_MINUTES"};
-        //cursor = db.query("SETTINGS", col,"weekday=?", args,null,null,null,null);
+    }
+    //status = status - work_minutes;
+    //Log.d("DB ", "status:" + status);
+    //args[0]=(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
+    //String[] col={"WORK_MINUTES"};
+    //cursor = db.query("SETTINGS", col,"weekday=?", args,null,null,null,null);
 
-        //while(cursor.moveToNext()) {
-        //    work_minutes=(cursor.getInt(0));
-        //}
+    //while(cursor.moveToNext()) {
+    //    work_minutes=(cursor.getInt(0));
+    //}
 //        work_minutes = getDaySetting((new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
 
 
@@ -333,7 +333,7 @@ public class DB extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
 
-       // GregorianCalendar calendar = new GregorianCalendar(iYear,iMonth,iDay);
+        // GregorianCalendar calendar = new GregorianCalendar(iYear,iMonth,iDay);
         //Log.d("DB ", "day of month:" + calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         //int daysOfMonth=calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
