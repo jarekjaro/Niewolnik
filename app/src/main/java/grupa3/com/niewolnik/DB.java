@@ -28,8 +28,6 @@ public class DB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(String.format("CREATE TABLE SETTINGS (WEEKDAY CHAR(3) PRIMARY KEY, WORK_MINUTES INT(4) )"));
-
-
         db.execSQL(String.format("CREATE TABLE REGISTER (LP INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "DATE CHAR(10)," +
                 "A_TIME CHAR(5)," +
@@ -45,7 +43,6 @@ public class DB extends SQLiteOpenHelper {
         addSetting("sat", 480);
         addSetting("sun", 480);
     }
-
 
     public void addWorkday(WorkDay workDay) {
         SQLiteDatabase db = getWritableDatabase();
@@ -138,11 +135,7 @@ public class DB extends SQLiteOpenHelper {
     public int getMonthStatus(String date) {
         String[] split_date = date.split("-");
         int iYear = Integer.parseInt(split_date[0]);
-
-        int iMonth = Integer.parseInt(split_date[1]);
-        ; // 1 (months begin with 0)
-
-        iMonth = Integer.parseInt(split_date[1]) - 1;
+        int iMonth = Integer.parseInt(split_date[1]) - 1;
 
         int iDay = 1;
 
@@ -151,7 +144,7 @@ public class DB extends SQLiteOpenHelper {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int status = 0;
         for (int i = 1; i <= daysOfMonth; i++) {
-            String day = "";
+            String day;
             if (i < 10) {
                 day = "0" + Integer.toString(i);
             } else {
@@ -176,7 +169,6 @@ public class DB extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         String args[] = {date};
         Cursor cursor = db.query("REGISTER", cols, "date=?", args, null, null, null, null);
-        //Cursor kursor=db.query("telefony",kolumny,"nr=?",args,null,null,null,null);
 
         while (cursor.moveToNext()) {
             WorkDay workDay = new WorkDay();
@@ -190,7 +182,6 @@ public class DB extends SQLiteOpenHelper {
 
         int status = 0;
         int work_minutes = 0;
-        //Log.d("DB ","size:"+workDays.size()+workDays.get(1).getDate());
         for (WorkDay workday : workDays) {
 
             String a_time = workday.getDate() + " " + workday.getArriveTime();
@@ -217,8 +208,6 @@ public class DB extends SQLiteOpenHelper {
             Log.d("DB ", "l_time:" + l_time);
             Log.d("DB ", "work_minutes:" + work_minutes);
             Log.d("DB ", "weekday:" + (new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
-
-
         }
         status = status - work_minutes;
         Log.d("DB ", "status:" + status);
@@ -233,16 +222,11 @@ public class DB extends SQLiteOpenHelper {
         int iMonth = Integer.parseInt(split_date[1]) - 1; //months begin with 0
         int iDay = 1;
         GregorianCalendar calendar = new GregorianCalendar(iYear, iMonth, iDay);
-
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-
     }
 
     private int getDateDiff(String date1, String date2) {
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
         Date d1 = null;
         Date d2 = null;
         try {
@@ -251,8 +235,6 @@ public class DB extends SQLiteOpenHelper {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        // Get msec from each, and subtract.
         long diff = d2.getTime() - d1.getTime();
         long diffSeconds = diff / 1000;
         long diffMinutes = diff / (60 * 1000);

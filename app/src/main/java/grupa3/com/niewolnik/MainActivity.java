@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private ProgressBar mainProgressBar;
     private DB db_manager;
-
     private int currentProgress = 0;
     private int dailyWorkedTime = 0;
     private int currentDayWorkingHours = 8;
