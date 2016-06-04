@@ -58,16 +58,16 @@ public class DB extends SQLiteOpenHelper {
 
     public List<WorkDay> getWorkDay(String date) {
         List<WorkDay> workDays = new LinkedList<>();
-        String[] kolumny={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
+        String[] kolumny = {"LP", "DATE", "A_TIME", "L_TIME", "FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
-        String args[]={date};
-        Cursor cursor = db.query("REGISTER", kolumny,"date=?", args,null,null,null,null);
+        String args[] = {date};
+        Cursor cursor = db.query("REGISTER", kolumny, "date=?", args, null, null, null, null);
         //Cursor kursor=db.query("telefony",kolumny,"nr=?",args,null,null,null,null);
 
-        while(cursor.moveToNext()){
-            Log.d("DB ","moveToNext0:"+cursor.getInt(0));
+        while (cursor.moveToNext()) {
+            Log.d("DB ", "moveToNext0:" + cursor.getInt(0));
             WorkDay workDay = new WorkDay();
-            workDay.setLP (cursor.getInt(0));
+            workDay.setLP(cursor.getInt(0));
             workDay.setDate(cursor.getString(1));
             workDay.setArriveTime(cursor.getString(2));
             workDay.setLeavingTime(cursor.getString(3));
@@ -79,13 +79,13 @@ public class DB extends SQLiteOpenHelper {
 
     public List<WorkDay> getAll() {
         List<WorkDay> workDays = new LinkedList<>();
-        String[] cols={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
+        String[] cols = {"LP", "DATE", "A_TIME", "L_TIME", "FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
-        Cursor kursor = db.query("REGISTER",cols,null,null,null,null,null);
+        Cursor kursor = db.query("REGISTER", cols, null, null, null, null, null);
 
-        while(kursor.moveToNext()){
+        while (kursor.moveToNext()) {
             WorkDay workDay = new WorkDay();
-            workDay.setLP (kursor.getInt(0));
+            workDay.setLP(kursor.getInt(0));
             workDay.setDate(kursor.getString(1));
             workDay.setArriveTime(kursor.getString(2));
             workDay.setLeavingTime(kursor.getString(3));
@@ -97,27 +97,29 @@ public class DB extends SQLiteOpenHelper {
 
     public void delSetting(String weekDay) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(String.format("DELETE FROM SETTINGS WHERE WEEKDAY='%s'",weekDay));
+        db.execSQL(String.format("DELETE FROM SETTINGS WHERE WEEKDAY='%s'", weekDay));
     }
 
-    public void addSetting(String weekDay,int workHours) {
+    public void addSetting(String weekDay, int workHours) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("WEEKDAY", weekDay);
         values.put("WORK_MINUTES", workHours);
         db.insertOrThrow("SETTINGS", null, values);
     }
-    public void updateSetting(String weekDay,int workHours) {
+
+    public void updateSetting(String weekDay, int workHours) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(String.format("UPDATE SETTINGS SET WORK_MINUTES=%s WHERE WEEKDAY='%s'", workHours, weekDay));
     }
-    public HashMap<String,Integer> getAllSettings() {
-        HashMap<String,Integer> settings = new HashMap<String,Integer>();
-        String[] cols={"WEEKDAY","WORK_MINUTES"};
-        SQLiteDatabase db_read = getReadableDatabase();
-        Cursor cursor = db_read.query("SETTINGS",null,null,null,null,null,null);
 
-        while(cursor.moveToNext()){
+    public HashMap<String, Integer> getAllSettings() {
+        HashMap<String, Integer> settings = new HashMap<String, Integer>();
+        String[] cols = {"WEEKDAY", "WORK_MINUTES"};
+        SQLiteDatabase db_read = getReadableDatabase();
+        Cursor cursor = db_read.query("SETTINGS", null, null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
             settings.put(cursor.getString(0), cursor.getInt(1));
         }
         return settings;
@@ -127,30 +129,31 @@ public class DB extends SQLiteOpenHelper {
 
         String[] split_date = date.split("-");
         int iYear = Integer.parseInt(split_date[0]);
-        int iMonth = Integer.parseInt(split_date[1]);; // 1 (months begin with 0)
+        int iMonth = Integer.parseInt(split_date[1]);
+        ; // 1 (months begin with 0)
         int iDay = 1;
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-        GregorianCalendar calendar = new GregorianCalendar(2013,01,28,13,24,56);
+        GregorianCalendar calendar = new GregorianCalendar(2013, 01, 28, 13, 24, 56);
         calendar.get(Calendar.DAY_OF_MONTH);
         Log.d("DB ", "day of month:" + calendar.get(Calendar.DAY_OF_MONTH));
 
         return 0;
     }
 
-    public int getDayStatus (String date) {
+    public int getDayStatus(String date) {
 
         List<WorkDay> workDays = new LinkedList<WorkDay>();
-        String[] cols={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
+        String[] cols = {"LP", "DATE", "A_TIME", "L_TIME", "FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
-        String args[]={date};
-        Cursor cursor = db.query("REGISTER", cols,"date=?", args,null,null,null,null);
+        String args[] = {date};
+        Cursor cursor = db.query("REGISTER", cols, "date=?", args, null, null, null, null);
         //Cursor kursor=db.query("telefony",kolumny,"nr=?",args,null,null,null,null);
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             WorkDay workDay = new WorkDay();
-            workDay.setLP (cursor.getInt(0));
+            workDay.setLP(cursor.getInt(0));
             workDay.setDate(cursor.getString(1));
             workDay.setArriveTime(cursor.getString(2));
             workDay.setLeavingTime(cursor.getString(3));
@@ -158,45 +161,45 @@ public class DB extends SQLiteOpenHelper {
             workDays.add(workDay);
         }
 
-        int status=0;
-        int work_minutes=0;
+        int status = 0;
+        int work_minutes = 0;
         //Log.d("DB ","size:"+workDays.size()+workDays.get(1).getDate());
-        for(WorkDay workday:workDays) {
+        for (WorkDay workday : workDays) {
 
-            String a_time = workday.getDate()+" "+workday.getArriveTime();
-            String l_time = workday.getDate()+" "+workday.getLeavingTime();
+            String a_time = workday.getDate() + " " + workday.getArriveTime();
+            String l_time = workday.getDate() + " " + workday.getLeavingTime();
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date d1= new Date();
+            Date d1 = new Date();
             try {
                 d1 = format.parse(workday.getDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             //getting weekday from date
-            args[0]=(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
-            String[] col={"WORK_MINUTES"};
-            cursor = db.query("SETTINGS", col,"weekday=?", args,null,null,null,null);
+            args[0] = (new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
+            String[] col = {"WORK_MINUTES"};
+            cursor = db.query("SETTINGS", col, "weekday=?", args, null, null, null, null);
 
-            while(cursor.moveToNext()) {
-                work_minutes=(cursor.getInt(0));
+            while (cursor.moveToNext()) {
+                work_minutes = (cursor.getInt(0));
             }
-            status+=getDateDiff(a_time,l_time);
+            status += getDateDiff(a_time, l_time);
 
-            Log.d("DB ", "a_time:"+a_time);
+            Log.d("DB ", "a_time:" + a_time);
             Log.d("DB ", "l_time:" + l_time);
-            Log.d("DB ","work_minutes:"+work_minutes);
-            Log.d("DB ","weekday:"+(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
+            Log.d("DB ", "work_minutes:" + work_minutes);
+            Log.d("DB ", "weekday:" + (new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
 
         }
-        status=status-work_minutes;
-        Log.d("DB ","status:"+status);
+        status = status - work_minutes;
+        Log.d("DB ", "status:" + status);
 
 
         return status;
     }
 
-    private int getDateDiff(String date1,String date2){
+    private int getDateDiff(String date1, String date2) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -214,7 +217,7 @@ public class DB extends SQLiteOpenHelper {
         long diffSeconds = diff / 1000;
         long diffMinutes = diff / (60 * 1000);
         long diffHours = diff / (60 * 60 * 1000);
-        return (int)diffMinutes;
+        return (int) diffMinutes;
     }
 
     @Override
@@ -224,8 +227,6 @@ public class DB extends SQLiteOpenHelper {
         //db.execSQL(String.format("INSERT INTO SETTINGS (WEEKDAY,WORK_HOURS) VALUES ('tue','8')"));
         //db.execSQL(String.format("DELETE SETTINGS WHERE WEEKDAY IN ('33','ala','al','a','ak')"));
     }
-
-
 
 
 }
