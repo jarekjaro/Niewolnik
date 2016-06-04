@@ -67,30 +67,24 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public List<WorkDay> getWorkDay(String date) {
-        List<WorkDay> workDays = new LinkedList<>();
-        String[] kolumny = {"LP", "DATE", "A_TIME", "L_TIME", "FREE_DAY"};
+        List<WorkDay> workDays = new LinkedList<WorkDay>();
+        String[] kolumny={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
-        String args[] = {date};
-        Cursor cursor = db.query("REGISTER", kolumny, "date=?", args, null, null, null, null);
+        String args[]={date};
+        Cursor cursor = db.query("REGISTER", kolumny,"date=?", args,null,null,null,null);
         //Cursor kursor=db.query("telefony",kolumny,"nr=?",args,null,null,null,null);
 
-
-        while (cursor.moveToNext()) {
-            Log.d("DB ", "moveToNext0:" + cursor.getInt(0));
-
-            while (cursor.moveToNext()) {
-
-                WorkDay workDay = new WorkDay();
-                workDay.setLP(cursor.getInt(0));
-                workDay.setDate(cursor.getString(1));
-                workDay.setArriveTime(cursor.getString(2));
-                workDay.setLeavingTime(cursor.getString(3));
-                workDay.setFreeDay(cursor.getInt(4));
-                workDays.add(workDay);
-            }
-            return workDays;
+        while(cursor.moveToNext()){
+            Log.d("DB ","moveToNext0:"+cursor.getInt(0));
+            WorkDay workDay = new WorkDay();
+            workDay.setLP (cursor.getInt(0));
+            workDay.setDate(cursor.getString(1));
+            workDay.setArriveTime(cursor.getString(2));
+            workDay.setLeavingTime(cursor.getString(3));
+            workDay.setFreeDay(cursor.getInt(4));
+            workDays.add(workDay);
         }
-        return null;
+        return workDays;
     }
 
     /*
