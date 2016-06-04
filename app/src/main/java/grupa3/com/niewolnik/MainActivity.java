@@ -3,13 +3,12 @@ package grupa3.com.niewolnik;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import java.text.SimpleDateFormat;
+import android.widget.ProgressBar;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private Date startTime = new Date();
     private Date endTime = new Date();
     private BluetoothAdapter bluetoothAdapter;
-    //private DB db;
+    private ProgressBar mainProgressBar;
+    private DB db_manager;
 
     private int currentProgress = 0;
     private int dailyWorkedTime = 0;
@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //---------db tests------------------------------------------------------------
-        DB db_manager = new DB(this);
+        db_manager = new DB(this);
 
-        //db_manager.addWorkday(new WorkDay("2016-05-26", "07:30", "17:20", 0));
-        //db_manager.addWorkday(new WorkDay("2016-05-30", "08:30", "12:00", 0));
-        //db_manager.addWorkday(new WorkDay("2016-05-30", "14:30", "17:30", 0));
+//        db_manager.addWorkday(new WorkDay("2016-05-26", "07:30", "17:20", 0));
+//        db_manager.addWorkday(new WorkDay("2016-05-30", "08:30", "12:00", 0));
+//        db_manager.addWorkday(new WorkDay("2016-05-30", "14:30", "17:30", 0));
 
         //db_manager.delWorkday("2016-05-26");
 
@@ -67,18 +67,18 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB ", wd.toString());
         }
         Log.d("DB", " --------settings----------");
-        //db_manager.updateSetting("mon", 480);
-        //db_manager.addSetting("mon", 480);
-        //db_manager.addSetting("tue", 480);
-        //db_manager.addSetting("wed", 480);
-        //db_manager.addSetting("thu", 480);
-        //db_manager.addSetting("fri", 480);
-        //db_manager.addSetting("sat", 480);
-        //db_manager.addSetting("sun", 480);
+//        db_manager.updateSetting("mon", 480);
+//        db_manager.addSetting("mon", 480);
+//        db_manager.addSetting("tue", 480);
+//        db_manager.addSetting("wed", 480);
+//        db_manager.addSetting("thu", 480);
+//        db_manager.addSetting("fri", 480);
+//        db_manager.addSetting("sat", 480);
+//        db_manager.addSetting("sun", 480);
 
-        //db_manager.delSetting("fri", 480);
-        //db_manager.delSetting("sat", 480);
-        //db_manager.delSetting("sun",480);
+//        db_manager.delSetting("fri", 480);
+//        db_manager.delSetting("sat", 480);
+//        db_manager.delSetting("sun",480);
         HashMap<String,Integer> allSettings=db_manager.getAllSettings();
 
         for (String s:new ArrayList<String>(allSettings.keySet()))
@@ -86,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("DB",s+" "+ Integer.toString(allSettings.get(s)));
         }
 
-        Log.d("DB", " --------day status----------");
-        db_manager.getDayStatus("2016-05-26");
-        Log.d("DB", " --------day status----------");
-        db_manager.getDayStatus("2016-05-30");
+//        Log.d("DB", " --------day status----------");
+//        db_manager.getDayStatus("2016-05-26");
+//        Log.d("DB", " --------day status----------");
+//        db_manager.getDayStatus("2016-05-30");
 
 
 
