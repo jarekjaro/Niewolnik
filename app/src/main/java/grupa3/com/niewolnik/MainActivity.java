@@ -120,13 +120,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("DB", " --------day status----------");
         db_manager.getDayStatus("2016-05-30");
         Log.d("DB", " --------month status----------");
-        Log.d("DB", "month:"+Integer.toString(db_manager.getMonthStatus("2016-05")));
+        Log.d("DB", "month:" + Integer.toString(db_manager.getMonthStatus("2016-05")));
 
 //        Log.d("DB", " --------day status----------");
 //        db_manager.getDayStatus("2016-05-26");
 //        Log.d("DB", " --------day status----------");
 //        db_manager.getDayStatus("2016-05-30");
-
 
 
         //--------------------------------------------------------------------
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuffer dataWStringu = new StringBuffer();
         Date todayDate = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if (((LinkedList) db_manager.getWorkDay(sdf.format(todayDate))).size() !=0) {
+        if (((LinkedList) db_manager.getWorkDay(sdf.format(todayDate))).size() != 0) {
             Log.d("DB", " --------day status----------");
             List<WorkDay> workDayList = new ArrayList<>();
             workDayList.addAll(db_manager.getWorkDay(sdf.format(todayDate).toString()));
