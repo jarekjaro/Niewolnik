@@ -57,7 +57,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public List<WorkDay> getWorkDay(String date) {
-        List<WorkDay> workDays = new LinkedList<WorkDay>();
+        List<WorkDay> workDays = new LinkedList<>();
         String[] kolumny={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
         String args[]={date};
@@ -78,7 +78,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public List<WorkDay> getAll() {
-        List<WorkDay> workDays = new LinkedList<WorkDay>();
+        List<WorkDay> workDays = new LinkedList<>();
         String[] cols={"LP","DATE","A_TIME","L_TIME","FREE_DAY"};
         SQLiteDatabase db = getReadableDatabase();
         Cursor kursor = db.query("REGISTER",cols,null,null,null,null,null);

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         //---------db tests------------------------------------------------------------
         db_manager = new DB(this);
@@ -58,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
         //db_manager.delWorkday("2016-05-26");
 
         Log.d("DB", " --------pojedynczy----------");
-        for(WorkDay wd:db_manager.getWorkDay("2016-05-26")) {
+        for (WorkDay wd : db_manager.getWorkDay("2016-05-26")) {
             Log.d("DB ", wd.toString());
         }
 
         Log.d("DB", " --------wyswietlanie----------");
-        for(WorkDay wd:db_manager.getAll()) {
+        for (WorkDay wd : db_manager.getAll()) {
             Log.d("DB ", wd.toString());
         }
         Log.d("DB", " --------settings----------");
@@ -79,11 +79,10 @@ public class MainActivity extends AppCompatActivity {
 //        db_manager.delSetting("fri", 480);
 //        db_manager.delSetting("sat", 480);
 //        db_manager.delSetting("sun",480);
-        HashMap<String,Integer> allSettings=db_manager.getAllSettings();
+        HashMap<String, Integer> allSettings = db_manager.getAllSettings();
 
-        for (String s:new ArrayList<String>(allSettings.keySet()))
-        {
-            Log.d("DB",s+" "+ Integer.toString(allSettings.get(s)));
+        for (String s : new ArrayList<String>(allSettings.keySet())) {
+            Log.d("DB", s + " " + Integer.toString(allSettings.get(s)));
         }
 
 //        Log.d("DB", " --------day status----------");
@@ -92,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
 //        db_manager.getDayStatus("2016-05-30");
 
 
-
         //--------------------------------------------------------------------
     }
 
 
     public void startWorkingTime(View view) {
-
+        if(db_manager.getWorkDay())
+        db_manager.addWorkday(new WorkDay());
     }
 
     public void stopWorkingTime(View view) {
@@ -113,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
     public void goToDelegationView(View view) {
 
     }
-
-
 
     public void pairBluetoothTriggeringDevice(View view) {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -133,6 +130,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    
 }
