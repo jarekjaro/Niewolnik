@@ -210,17 +210,15 @@ public class DB extends SQLiteOpenHelper {
             }
             status+=getDateDiff(a_time,l_time);
 
-            Log.d("DB ", "a_time:"+a_time);
-            Log.d("DB ", "l_time:" + l_time);
-            Log.d("DB ","work_hours:"+work_minutes);
-            Log.d("DB ","weekday:"+(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
+            //Log.d("DB ", "a_time:"+a_time);
+            //Log.d("DB ", "l_time:" + l_time);
+            //Log.d("DB ","work_hours:"+work_minutes);
+            //Log.d("DB ","weekday:"+(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
 
         }
         if(status!=0) {
             status = status - work_minutes;
         }
-        Log.d("DB ","status:"+status);
-
 
         return status;
     }

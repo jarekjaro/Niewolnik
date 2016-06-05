@@ -10,6 +10,12 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 
 public class Calendar extends AppCompatActivity {
 
@@ -69,20 +75,33 @@ public class Calendar extends AppCompatActivity {
         String minDate;
         String maxDate;
 
-        // get date range from calendar
-        minDateMs = calendarView.getDate();
-        maxDateMs = calendarView.getMaxDate();
 
-        minDate = String.format("%tF", minDateMs);
+        DateFormat cdfSimple = new SimpleDateFormat("yyy-MM-dd");
+        Date cdSimple = new Date();
+        String date= cdfSimple.format(cdSimple);
+        String[] split_date = date.split("-");
+        int iYear = Integer.parseInt(split_date[0]);
+        int iMonth = Integer.parseInt(split_date[1]) - 1;
+        int iDay = 1;
 
-        //now.format("%d.%m.%Y %H.%M.%S
+        GregorianCalendar calendar = new GregorianCalendar(iYear, iMonth, iDay);
+        int daysOfMonth = calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        int status = 0;
 
-        //db_manager.getDayStatus("2016-05-26");
-
-        Log.d("DB", " --------test current date----------");
-        Log.d("DB", "MinDatems: " + minDateMs + "MindDte: " + minDate);
-
-        //printWorkTime(currentDate);
+        for (int i = 1; i <= daysOfMonth; i++) {
+            String day = "";
+            if (i < 10) {
+                day = "0" + Integer.toString(i);
+            } else {
+                day = Integer.toString(i);
+            }
+            List<WorkDay> wd=db_manager.getWorkDay(split_date[0] + "-" + split_date[1] + "-" + day);
+            status = db_manager.getDayStatus(split_date[0] + "-" + split_date[1] + "-" + day);
+            Log.d("DB ", "day of month:" + split_date[0] + "-" + split_date[1] + "-" + day+", status"+status);
+            if(wd.size()>0) {
+                Log.d("DB ", "godz przyjscia:" + wd.get(0).getArriveTime() + ", godz. wyjscia:" + wd.get(0).getLeavingTime());
+            }
+        }
     }
 
     public void showDailyTime(View view) {
