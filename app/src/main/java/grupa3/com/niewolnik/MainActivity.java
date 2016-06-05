@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -49,13 +48,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         db_manager = new DB(this);
+        mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        final int minutes_in_day = db_manager.getDaySetting(sdf.format(todayDate));
+        mainProgressBar.setMax(minutes_in_day);
+        Log.d("MINUTY W DNIU", String.valueOf(minutes_in_day));
         // Start lengthy operation in a background thread
         new Thread(new Runnable() {
             public void run() {
                 while (currentProgress < 100) {
                     currentProgress = updateProgress();
+                    Log.d("CZAS", String.valueOf(currentProgress));
                     // Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
@@ -68,15 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int updateProgress() {
-        int startTime;
-        int endTime;
-        List<WorkDay> workDayList = getTodayEntriesList();
-        for (Iterator iterator = workDayList.iterator(); iterator.hasNext(); ) {
-            WorkDay entry = (WorkDay) iterator.next();
-            entry.getDate();
-
-        }
-        return currentProgress;
+        return db_manager.getMinutesFromStart();
     }
 
     private List<WorkDay> getTodayEntriesList() {
@@ -86,20 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void startWorkingTime(View view) {
         List<WorkDay> workDayList = getTodayEntriesList();
-
         if (workDayList.size() != 0) {
-            if ((getTodayEntriesList()).size() != 0) {
-
-                Log.d("DB", " --------day status----------");
-                workDayList.addAll(getTodayEntriesList());
-                for (int i = 0; i < workDayList.size(); i++) {
-                    Log.d("DB", workDayList.get(i).toString());
-                }
-            } else {
-                db_manager.addWorkday(new WorkDay());
-                Log.d("DB", " --------day added ----------");
-                Log.d("DB", getTodayEntriesList().toString());
+            Log.d("DB", " --------day status----------");
+            for (int i = 0; i < workDayList.size(); i++) {
+                Log.d("DB", workDayList.get(i).toString());
             }
+        } else {
+            db_manager.addWorkday(new WorkDay(sdf.format(todayDate), "06:30", "", 0));
+            Log.d("DB", " --------day added ----------");
+            Log.d("DB", getTodayEntriesList().toString());
         }
     }
 
