@@ -46,7 +46,7 @@ public class DB extends SQLiteOpenHelper {
         addSetting("thu",480);
         addSetting("fri",480);
         addSetting("sat",480);
-        addSetting("sun",480);
+        addSetting("sun", 480);
 
     }
 
@@ -126,6 +126,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public int getDaySetting(String day) {
+
         String d="";
         if(day.length()>4) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -138,6 +139,9 @@ public class DB extends SQLiteOpenHelper {
             day=(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase();
         }
         HashMap<String, Integer> allSettings = getAllSettings();
+        if(allSettings.get(day)==null) {
+            return 480;
+        }
         return allSettings.get(day);
     }
 
@@ -223,7 +227,6 @@ public class DB extends SQLiteOpenHelper {
 
     private int getDateDiff(String date1,String date2){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
         Date d1 = null;
         Date d2 = null;
         try {
@@ -273,6 +276,7 @@ public class DB extends SQLiteOpenHelper {
         if(getWorkDay(getCurrentDateSimple()).size()==0) {
             return 0;
         }
+
         DateFormat dfFull = new SimpleDateFormat("yyy-MM-dd HH:mm");
         Date date = new Date();
         String cdate = dfFull.format(date);
@@ -296,8 +300,12 @@ public class DB extends SQLiteOpenHelper {
         if(dayStatus!=0) {
             dayStatus+=getDaySetting(cDateSimple);
         }
-
-        return getDateDiff(date2,cdate)+dayStatus;
+        if(date2.equalsIgnoreCase("")) {
+            return 0;
+        }
+        else {
+            return getDateDiff(date2, cdate) + dayStatus;
+        }
     }
 
     private String getCurrentDateSimple() {
@@ -323,6 +331,7 @@ public class DB extends SQLiteOpenHelper {
             Log.d("DB", "hours["+i+"]:" +hours[i-1]);
             values.put("DATE", full_date);
             values.put("WORK_MINUTES", hours[i-1]);
+            db.delete("SETTINGS_MONTH",null,null);
             db.insertOrThrow("SETTINGS_MONTH", null, values);
         }
     }
