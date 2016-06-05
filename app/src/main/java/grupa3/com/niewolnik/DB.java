@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -40,13 +39,13 @@ public class DB extends SQLiteOpenHelper {
 
 
         db.execSQL(String.format("CREATE TABLE SETTINGS_MONTH (DATE CHAR(10) PRIMARY KEY, WORK_MINUTES INT(4) )"));
-        addSetting("mon", 480);
-        addSetting("tue",480);
-        addSetting("wed",480);
-        addSetting("thu",480);
-        addSetting("fri",480);
-        addSetting("sat",480);
-        addSetting("sun", 480);
+        addSetting("mon", 480, db);
+        addSetting("tue",480, db);
+        addSetting("wed",480, db);
+        addSetting("thu",480, db);
+        addSetting("fri",480, db);
+        addSetting("sat",480, db);
+        addSetting("sun", 480, db);
 
     }
 
@@ -117,12 +116,11 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(String.format("DELETE FROM SETTINGS WHERE WEEKDAY='%s'", weekDay));
     }
 
-    public void addSetting(String weekDay,int workHours) {
-        SQLiteDatabase db = getWritableDatabase();
+    public void addSetting(String weekDay, int workHours, SQLiteDatabase baza) {
         ContentValues values = new ContentValues();
         values.put("WEEKDAY", weekDay);
         values.put("WORK_HOURS", workHours);
-        db.insertOrThrow("SETTINGS", null, values);
+        baza.insertOrThrow("SETTINGS", null, values);
     }
 
     public int getDaySetting(String day) {
@@ -184,7 +182,6 @@ public class DB extends SQLiteOpenHelper {
 
         int status=0;
         int work_minutes=0;
-        //Log.d("DB ","size:"+workDays.size()+workDays.get(1).getDate());
         for(WorkDay workday:workDays) {
 
             if(workday.getArriveTime()==null || workday.getArriveTime().equalsIgnoreCase("") || workday.getLeavingTime()==null || workday.getLeavingTime().equalsIgnoreCase("")) {
@@ -209,19 +206,10 @@ public class DB extends SQLiteOpenHelper {
                 work_minutes=(cursor.getInt(0));
             }
             status+=getDateDiff(a_time,l_time);
-
-            Log.d("DB ", "a_time:"+a_time);
-            Log.d("DB ", "l_time:" + l_time);
-            Log.d("DB ","work_hours:"+work_minutes);
-            Log.d("DB ","weekday:"+(new SimpleDateFormat("EE").format(d1)).toString().toLowerCase());
-
         }
         if(status!=0) {
             status = status - work_minutes;
         }
-        Log.d("DB ","status:"+status);
-
-
         return status;
     }
 
@@ -264,7 +252,6 @@ public class DB extends SQLiteOpenHelper {
             } else {
                 day = Integer.toString(i);
             }
-            Log.d("DB ", "day of month:" + split_date[0] + "-" + split_date[1] + "-" + day);
 
             status += getDayStatus(split_date[0] + "-" + split_date[1] + "-" + day);
         }
@@ -286,7 +273,6 @@ public class DB extends SQLiteOpenHelper {
             String s_date = workDays.get(0).getDate();
             String a_time = workDays.get(0).getArriveTime();
             date2 = s_date + " " + a_time;
-            Log.d("DB", "date2:"+date2);
 
         return getDateDiff(date2, cdate) ;
     }
@@ -310,8 +296,6 @@ public class DB extends SQLiteOpenHelper {
             }
             ContentValues values = new ContentValues();
             String full_date=date+"-"+day;
-            Log.d("DB", "full_date:" +full_date);
-            Log.d("DB", "hours["+i+"]:" +hours[i-1]);
             values.put("DATE", full_date);
             values.put("WORK_MINUTES", hours[i-1]);
             db.delete("SETTINGS_MONTH",null,null);

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     protected Date todayDate = new Date(System.currentTimeMillis());
     protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    protected SimpleDateFormat sdf_godz = new SimpleDateFormat("HH:mm");
+    protected String todayDateInString = sdf.format(todayDate);
+    protected String currentHourInString;
+    private TextView statusMiesieczny;
+    private TextView statusDzienny;
+    private TextView godzinaRozpoczecia;
+    private TextView godzinaZakonczenia;
+    private TextView dzisiejszaData;
 
     private int calculateMinutesDifference(Date startTime, Date endTime) {
         return (int) ((endTime.getTime() - startTime.getTime()) / 1000 / 60);
@@ -49,25 +58,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db_manager = new DB(this);
+        db_manager.delWorkday(todayDateInString);
+        db_manager.addWorkday(new WorkDay(todayDateInString, "8:00", "", 0));
         mainProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        final int minutes_in_day = db_manager.getDaySetting(sdf.format(todayDate));
+        final int minutes_in_day = db_manager.getDaySetting(todayDateInString);
         mainProgressBar.setMax(minutes_in_day);
-        Log.d("MINUTY W DNIU", String.valueOf(minutes_in_day));
-        // Start lengthy operation in a background thread
+        statusDzienny = (TextView) findViewById(R.id.daily_status);
         new Thread(new Runnable() {
             public void run() {
-                while (currentProgress < 100) {
+                while (currentProgress < minutes_in_day) {
                     currentProgress = updateProgress();
-                    Log.d("CZAS", String.valueOf(currentProgress));
-                    // Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
                             mainProgressBar.setProgress(currentProgress);
+                            if (statusDzienny != null) {
+                                statusDzienny.setText(differenceInString(currentProgress));
+                            }
                         }
                     });
                 }
             }
         }).start();
+        statusMiesieczny = (TextView) findViewById(R.id.monthly_status);
+        if (statusMiesieczny != null) {
+            int status = db_manager.getMonthStatus(todayDateInString);
+            statusMiesieczny.setText("Status mies. " + String.valueOf(Math.round(status / 60)));
+        }
+        godzinaRozpoczecia = (TextView) findViewById(R.id.start_time);
+        if (godzinaRozpoczecia != null) {
+            godzinaRozpoczecia.setText(String.valueOf(db_manager.getWorkDay(todayDateInString).get(0).getArriveTime()));
+        }
+        godzinaZakonczenia = (TextView) findViewById(R.id.end_time);
+        if (godzinaZakonczenia != null) {
+            godzinaZakonczenia.setText(String.valueOf(db_manager.getWorkDay(todayDateInString).get(0).getLeavingTime()));
+        }
+        dzisiejszaData = (TextView) findViewById(R.id.todays_date);
+        if (dzisiejszaData != null) {
+            dzisiejszaData.setText(todayDateInString);
+        }
     }
 
     private int updateProgress() {
@@ -87,14 +115,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("DB", workDayList.get(i).toString());
             }
         } else {
-            db_manager.addWorkday(new WorkDay(sdf.format(todayDate), "06:30", "", 0));
+            currentHourInString = sdf_godz.format(new Date());
+            db_manager.addWorkday(new WorkDay(sdf.format(todayDate), currentHourInString, "", 0));
             Log.d("DB", " --------day added ----------");
             Log.d("DB", getTodayEntriesList().toString());
         }
     }
 
     public void stopWorkingTime(View view) {
-
+        currentHourInString = sdf_godz.format(new Date());
+        db_manager.setWorkdayLTime(new WorkDay(todayDateInString, "", currentHourInString, 0));
     }
 
     public void goToCalendarView(View view) {
