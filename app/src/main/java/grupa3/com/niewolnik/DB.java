@@ -273,9 +273,6 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public int getMinutesFromStart() {
-        if(getWorkDay(getCurrentDateSimple()).size()==0) {
-            return 0;
-        }
 
         DateFormat dfFull = new SimpleDateFormat("yyy-MM-dd HH:mm");
         Date date = new Date();
@@ -286,26 +283,12 @@ public class DB extends SQLiteOpenHelper {
         List<WorkDay> workDays = getWorkDay(cDateSimple);
 
         String date2="";
-        for(WorkDay w:workDays) {
-            if(!w.getLeavingTime().equalsIgnoreCase("")) {
-                continue;
-            }
-            String s_date = w.getDate();
-            String a_time = w.getArriveTime();
+            String s_date = workDays.get(0).getDate();
+            String a_time = workDays.get(0).getArriveTime();
             date2 = s_date + " " + a_time;
-        }
-        //dayStatus includes other leaving, arriving activities in current day
-        int dayStatus=getDayStatus(cDateSimple);
-        Log.d("DB", "dayStatus:"+Integer.toString(dayStatus));
-        if(dayStatus!=0) {
-            dayStatus+=getDaySetting(cDateSimple);
-        }
-        if(date2.equalsIgnoreCase("")) {
-            return 0;
-        }
-        else {
-            return getDateDiff(date2, cdate) + dayStatus;
-        }
+            Log.d("DB", "date2:"+date2);
+
+        return getDateDiff(date2, cdate) ;
     }
 
     private String getCurrentDateSimple() {
